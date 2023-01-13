@@ -1,0 +1,29 @@
+<!DOCTYPE html> <!-- This is an HTML5 file -->
+<html> <!-- The root element -->
+<head> <!-- Title, scripts & styles can go here -->
+<title>loadingTestLocal</title>
+
+</head>
+
+<body> <!-- The body holds the content of the document. -->
+<!--<h1>Console Test</h1>  Display a title. -->
+
+<script type="module">
+
+function getSourceAsDOM(url)
+{
+    let xmlhttp=new XMLHttpRequest();
+    xmlhttp.open("GET",url,false);
+    xmlhttp.send();
+    parser=new DOMParser();
+    return parser.parseFromString(xmlhttp.responseText,"text/html");      
+}
+
+let urlDOM = getSourceAsDOM('https://github.com/hpcfung/CodingProjects/blob/main/2023/sql_server/test/Jan09_test/test_upload.txt');
+console.log(urlDOM);
+
+
+</script>
+<!--"generateHashes.js" -->
+</body>
+</html>
