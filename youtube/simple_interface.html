@@ -1,7 +1,7 @@
 <!DOCTYPE html> <!-- This is an HTML5 file -->
 <html> <!-- The root element -->
 <head> <!-- Title, scripts & styles can go here -->
-<title>Digital Clock</title>
+<title>Shorts to normal</title>
 <style> /* A CSS stylesheet for the clock */
 #clock { /* Styles apply to element with id="clock" */
  font: bold 24px sans-serif; /* Use a big bold font */
@@ -23,6 +23,7 @@ function displayTime() {
  clock.textContent = now.toLocaleTimeString(); // Display time in the clock
 }
 displayTime() // Display the time right away
+setInterval(displayTime, 1);
 let short_url = prompt("Enter shorts youtube link", "https://www.youtube.com/shorts/xKlqsv4nCao");
 out_url = short_url.replace("www.youtube.com/shorts","youtu.be")
 clock.textContent = out_url;
