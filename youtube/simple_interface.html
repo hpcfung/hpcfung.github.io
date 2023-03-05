@@ -22,11 +22,10 @@ function displayTime() {
  let now = new Date(); // Get current time
  clock.textContent = now.toLocaleTimeString(); // Display time in the clock
 }
-displayTime() // Display the time right away
-// setInterval(displayTime, 1);
 setTimeout(function() {
     let short_url = prompt("Enter shorts youtube link", "https://www.youtube.com/shorts/xKlqsv4nCao");
 }, (1));
+displayTime() // Display the time right away
 out_url = short_url.replace("www.youtube.com/shorts","youtu.be")
 clock.textContent = out_url;
 </script>
