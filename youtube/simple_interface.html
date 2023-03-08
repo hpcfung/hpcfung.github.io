@@ -23,11 +23,11 @@ function displayTime() {
  clock.textContent = now.toLocaleTimeString(); // Display time in the clock
 }
 setTimeout(function() {
+    displayTime() // Display the time right away
     let short_url = prompt("Enter shorts youtube link", "https://www.youtube.com/shorts/xKlqsv4nCao");
+    out_url = short_url.replace("www.youtube.com/shorts","youtu.be")
+    clock.textContent = out_url;
 }, (1));
-displayTime() // Display the time right away
-out_url = short_url.replace("www.youtube.com/shorts","youtu.be")
-clock.textContent = out_url;
 </script>
 </body>
 </html>
