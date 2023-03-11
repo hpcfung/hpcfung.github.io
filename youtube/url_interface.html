@@ -1,0 +1,19 @@
+<!DOCTYPE html> <!-- This is an HTML5 file -->
+<html> <!-- The root element -->
+<head> <!-- Title, scripts & styles can go here -->
+<title>Shorts to normal</title>
+
+</head>
+<body> <!-- The body holds the content of the document. -->
+<h1>Digital Clock</h1> <!-- Display a title. -->
+<a id="url_display" href="https://www.youtube.com/shorts/xKlqsv4nCao">https://www.youtube.com/shorts/xKlqsv4nCao</a>
+<script>
+setTimeout(function() {
+    let short_url = prompt("Enter shorts youtube link", "https://www.youtube.com/shorts/xKlqsv4nCao");
+    out_url = short_url.replace("www.youtube.com/shorts","youtu.be")
+    document.getElementById("url_display").href=out_url;
+    document.getElementById("url_display").innerHTML=out_url;
+}, (1));
+</script>
+</body>
+</html>
