@@ -1,0 +1,44 @@
+<!DOCTYPE html> <!-- This is an HTML5 file -->
+<html> <!-- The root element -->
+<head> <!-- Title, scripts & styles can go here -->
+<title>Shorts to normal</title>
+
+</head>
+<body> <!-- The body holds the content of the document. -->
+<h1>REPL code</h1> <!-- Display a title. -->
+<span id="code"></span>
+<button onclick="copyCode()" id="copy_button">Copy code</button>
+<script>
+setTimeout(function() {
+    let input_path = prompt("Enter absolute path to .jl (\"Copy as path\")", "\"C:\\Python_projects\\2023 USRA\\april_28_plot_test.jl\"");
+    REPL_code = "include("+input_path.replaceAll("\\","\\\\")+")";
+    code.textContent = REPL_code;
+    navigator.clipboard.writeText(REPL_code);
+    
+}, (1));
+
+function lowerOpacity(buttonElement,i) {
+    console.log(i)
+    buttonElement.style.opacity = 1-i/200;
+    if (i < 100) {
+        const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,i+1), 10);
+    } else {
+        buttonElement.textContent = "Copy code";
+        buttonElement.style.opacity = 1;
+    }
+}
+
+function copyCode() {
+  // Get the text field
+  var REPL_code = document.getElementById("code").textContent;
+  console.log(REPL_code)
+
+  // Copy the text inside the text field
+  navigator.clipboard.writeText(REPL_code);
+  buttonElement = document.getElementById("copy_button")
+  buttonElement.textContent = "Copied!";
+  const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,1), 10);
+}
+</script>
+</body>
+</html>
