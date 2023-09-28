@@ -19,6 +19,9 @@ then, must know what argument (what class)
 
 for private repo: upload file?
 
+uml for functional programming
+"Functional programmers have their own version of UML, it is called Category Theory."
+
 TODO: add these features
 toggle: show external imports or not
 
