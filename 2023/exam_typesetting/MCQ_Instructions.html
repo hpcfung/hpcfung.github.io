@@ -2,32 +2,46 @@
 <html> <!-- The root element -->
 <head> <!-- Title, scripts & styles can go here -->
 <title>MCQ Instructions</title>
+<style>
+    pre {
+        font-family: "Times New Roman", Times, serif;
+        white-space: pre-wrap;
+        border: 1.5px solid gray;
+        padding: 3px;
+        margin-top: -10px;
+    }
+</style>
+
 </head>
 <body> <!-- The body holds the content of the document. -->
 <h1>MCQ Instructions</h1> <!-- Display a title. -->
 <p>Instructions for <a href="MCQ.html">this</a>.</p>
 <h2>Workflow</h2>
-<h3>Step : </h3>
-<p>Copy only the Qs (eg no header). Only MCQs. </p>
-<p>Make sure 1. included, question num, especially the first</p>
-<p>Accepted/expected formats: (change into these or edit code)
-
-Questions:
-"1)", "1."
-
-Answers:
-"A. ", "A ", "A) "
-"a. ", "a ", "a) "
-A to F
-
-eg
+<h3>Step 1: Copy and paste</h3>
+<ul>
+    <li>Pick the first word document and copy the MCQs.</li>
+    <ul>
+        <li>Copy the questions only: eg no header.</li>
+        <li>Note that these MCQs will be listed first in the final document.</li>
+    </ul>
+    <li>Make sure each question number is included, especially the first one (eg "1.").</li>
+    <li>The program accepts and expects the following format only. Change the text in the textarea on the website into the following before adding (or contact the author to include new formats).</li>
+    <ul>
+        <li>Questions: "1.", "1)", "1.)", "1 " (any number)</li>
+        <li>Answers: "A. ", "A) ", "A.) ", "A " (from A to F)(A or a)</li>
+        <li>Parts: "i.", "i)", "i.)", "i " (from i to x)(upper or lower case)</li>
+    </ul>
+    <li>These should include most cases, so in practice you can just add immediately and verify in the preview window.</li>
+</ul>
+<h4>Examples</h4>
+<p>Acceptable "answers":</p>
+<pre>
 A. Administer pain medication as prescribed.
 A Administer granulocyte colony-stimulating factor (G-CSF) injection as prescribed.
-a) "Counselling services can provide emotional support for both the patient and family members."
-
-MC: i) or i.)
-</p>
-<p>Ok: Empty lines at the beginning or end. Wrong formatting, eg
+a) "Counselling services can provide emotional support for both the patient and family members."    
+</pre>
+<p>Note that the program can deal with most formatting errors, such as empty lines at the beginning or end, or extra whitespace at the beginning of each line. Hence it is fine to copy and paste from the word document directly. eg the following is ok:</p>
+<pre>
 
     1) You are an OT student nurse mentor and orientating them in their first day placement. When you introduce the Clean/ Semi-restricted Zone such as clean corridor, what is the minimum requirement of attire for the personnel?
     i.) OT attire
@@ -39,12 +53,25 @@ MC: i) or i.)
     C. i.) + ii.) +iv.)
     D. All of the above
 (20230809 OT Environment & Design Slide 9)
-</p>
-<h3>Step : </h3>
-<p>Output in Q: and A:, not numbered yet</p>
-<p>Proofread the text under "Preview" and edit if necessary.</p>
+</pre>
+<h3>Step 2: Proofreading</h3>
+<ul>
+    <li>Click the "Add raw text" button to add the raw MCQs. Note that the new MCQs are merged with the MCQs that were added previously.</li>
+    <li>Proofread the text under "Preview" and edit if necessary.</li>
+    <ul>
+        <li>The question, answer, and part markers are replaced by "_Q:", "_A:", and "_P:"; this is normal.</li>
+        <li>They will be numbered automatically in the next step.</li>
+    </ul>
+    <li>Repeat Step 1 and 2 for the MCQs from the other word documents. The MCQs in the final document will be listed in the order they were added in.</li>
+</ul>
+
+
 <h2>Behavior</h2>
-<p>Removes empty lines at the beginning or end. Converts consecutive empty lines into one empty line.</p>
+<ul>
+    <li>Removes empty lines except the empty line between questions.</li>
+    <li>Only detects "questions", "answers", and "parts" if they are at the beginning of a line (possibly preceded by spaces).</li>
+</ul>
+
 <h2>Warning</h2>
 <ol>
     <li>During the initial copy and paste step, underscores are not copied. These have to be added manually to the final .docx file.
@@ -61,9 +88,10 @@ MC: i) or i.)
 
 <h2>Future features</h2>
 <ol>
-    <li>Input MC answers as well. Generate two .docx, one with and without answers.</li>
+    <li>Input MC answers as well. [[A]] Generate two .docx, one with and without answers.</li>
     <li>Generate the front page and footers.</li>
     <li>i.) + iii.) + iv.) to i, iii, & iv?</li>
+    <li>Add short Qs.</li>
     <li>To request additional features, contact the author.</li>
 </ol>
 

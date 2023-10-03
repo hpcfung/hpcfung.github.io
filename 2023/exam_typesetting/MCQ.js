@@ -28,13 +28,20 @@ function getCompiledText(raw_text) {
   processed_text = processed_text.replaceAll(/\n\s*\n\s*\n/g, '\n\n')
   
   // Q:, X detect whitespace after Q number; removes all preceding whitespace, \s without \n
-  processed_text = processed_text.replaceAll(/^[\f\r\t\v\u0020\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]*[0-9]+[).]/mg, '_Q:')
-  // make sure there is exactly one whitespace after Q number
-  processed_text = processed_text.replaceAll(/_Q:[\f\r\t\v\u0020\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]*/g, '_Q: ')
+  // [\f\r\t\v\u0020\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]
+  // disjunction |: matches left condition first?
+  processed_text = processed_text.replaceAll(/^\s*[0-9]+(.\)|[.) ])/mg, '_Q:')
   
   // A:
-  processed_text = processed_text.replaceAll(/^[\f\r\t\v\u0020\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]*[A-Fa-f][.)]?[ ]/mg, '_A:')
+  processed_text = processed_text.replaceAll(/^\s*[A-Fa-f](.\)|[.)])?[ ]/mg, '_A:')
   processed_text = processed_text.replaceAll(/_A:[\f\r\t\v\u0020\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]*/g, '_A: ')
+
+  // P: disjunction order matters
+  processed_text = processed_text.replaceAll(/^\s*(iii|ii|iv|v|viii|vii|vi|ix|x|i)(.\)|[.)])?[ ]/mgi, '_P:')
+  processed_text = processed_text.replaceAll(/_P:[\f\r\t\v\u0020\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]*/g, '_P: ')
+
+  // make sure there is exactly one newline before and one whitespace after Q number
+  processed_text = processed_text.replaceAll(/_Q:[\f\r\t\v\u0020\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]*/g, '\n_Q: ')
   return processed_text
 }
 
