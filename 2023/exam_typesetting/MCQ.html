@@ -1,0 +1,42 @@
+<!DOCTYPE html> <!-- This is an HTML5 file -->
+<html> <!-- The root element -->
+<head> <!-- Title, scripts & styles can go here -->
+<title>Generate MCQ.docx</title>
+<style> 
+    textarea {
+      width: 100%;
+      height: 160px;
+      padding: 12px 20px;
+      box-sizing: border-box;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      background-color: #f8f8f8;
+      font-size: 16px;
+      resize: none;
+    }
+    #compiledText {
+      height: 300px;
+    }
+    </style>
+</head>
+<body> <!-- The body holds the content of the document. -->
+<h1>Generate MCQ.docx</h1> <!-- Display a title. -->
+<p>Automatically numbers the MCQs and generates a .docx file with the right formatting. See detailed instructions <a href="MCQ_Instructions.html">here</a>.</p>
+<form>
+<textarea id="rawText" placeholder="Paste raw MCQs here, eg:
+
+1) Which kind of white blood cell is the most abundant in blood?
+    A. Lymphocyte
+    B. Monocyte
+    C. Neutrophil
+    D. Eosinophil">
+</textarea>
+</form>
+<button onclick="addRawText()" id="add_button">Add raw text</button>
+<h2>Preview</h2>
+<form>
+    <textarea id="compiledText" placeholder="The compiled text will show up here."></textarea>
+    </form>
+<script src="MCQ.js"></script>
+</body>
+</html>
