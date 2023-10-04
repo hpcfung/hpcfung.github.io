@@ -1,24 +1,3 @@
-// setTimeout(function() {
-//     let input_path = prompt("Enter absolute path to .jl (\"Copy as path\")", "\"C:\\Python_projects\\2023 USRA\\april_28_plot_test.jl\"");
-//     REPL_code = "include("+input_path.replaceAll("\\","\\\\")+")";
-//     code.textContent = REPL_code;
-//     navigator.clipboard.writeText(REPL_code);
-    
-// }, (1));
-
-// need preprocessing: page skip, Q gap
-// also when merging different sources, need gap btw Qs
-
-function lowerOpacity(buttonElement,i) {
-    // console.log(i)
-    buttonElement.style.opacity = 1-i/200;
-    if (i < 100) {
-        const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,i+1), 10);
-    } else {
-        buttonElement.textContent = "Add raw text";
-        buttonElement.style.opacity = 1;
-    }
-}
 
 function getCompiledText(raw_text) {
   // remove first and last empty line
@@ -70,6 +49,16 @@ function repr(str) {
     return result;
   }
 
+function lowerOpacity(buttonElement,i,original_text) {
+  // console.log(i)
+  buttonElement.style.opacity = 1-i/200;
+  if (i < 100) {
+      const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,i+1,original_text), 10);
+  } else {
+      buttonElement.textContent = original_text;
+      buttonElement.style.opacity = 1;
+  }
+}
   
 function addRawText() {
   // Get the text area
@@ -91,6 +80,111 @@ function addRawText() {
   // Refresh button and rawText textarea
   buttonElement = document.getElementById("add_button")
   buttonElement.textContent = "Added!";
-  const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,1), 10);
+  const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,1,"Add raw text"), 10);
   document.getElementById("rawText").value = ""
+}
+
+function generateDocx() {
+  // https://docx.js.org/#/usage/styling-with-xml
+  // host: https://www.unpkg.com/ (all npm)
+  // alt: https://docxtemplater.com/ (some features paid)
+  // https://cdnjs.com/ (not all)
+
+  // somehow loads all files and dependencies automatically
+  
+  // Refresh button and rawText textarea
+  buttonElement = document.getElementById("gen_button")
+  buttonElement.textContent = "Generated!";
+  const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,1,"Generate"), 10);
+}
+
+function generate() {
+  // const doc = new docx.Document({
+  //   sections: [
+  //     {
+  //       properties: {},
+  //       children: [
+  //         new docx.Paragraph({
+  //           children: [
+  //             new docx.TextRun("Hello World"),
+  //             new docx.TextRun({
+  //               text: "Foo Bar",
+  //               bold: true
+  //             }),
+  //             new docx.TextRun({
+  //               text: "\tGithub is the best",
+  //               bold: true
+  //             })
+  //           ]
+  //         })
+  //       ]
+  //     }
+  //   ]
+  // });
+
+  // const doc = new docx.Document({
+  //   sections: [{
+  //     children: [
+  //         new docx.Paragraph({
+  //             text: "Bullet points",
+  //             bullet: {
+  //                 level: 0 // How deep you want the bullet to be. Maximum level is 9
+  //             }
+  //         }),
+  //         new docx.Paragraph({
+  //             text: "Are awesome",
+  //             bullet: {
+  //                 level: 0
+  //             }
+  //         })
+  //     ],
+  //   }]
+  // });
+
+  const doc = new docx.Document({
+    numbering: {
+      config: [
+          {
+              reference: "numbered-list",
+              levels: [
+                  {
+                      level: 0,
+                      format: docx.LevelFormat.DECIMAL,
+                      text: "%1.",
+                      alignment: docx.AlignmentType.LEFT,
+                      style: {
+                        paragraph: {
+                            indent: { left: 363, hanging: 363 },
+                        },
+                    },
+                  },
+              ],
+          },
+      ],
+    },
+    sections: [{
+      children: [
+          new docx.Paragraph({
+              text: "Bullet points",
+              numbering: {
+                reference: "numbered-list",
+                level: 0,
+            },
+          }),
+          new docx.Paragraph({
+              text: "Are awesome",
+              numbering: {
+                reference: "numbered-list",
+                level: 0,
+            },
+          })
+      ],
+    }]
+  });
+
+  docx.Packer.toBlob(doc).then((blob) => {
+    console.log(blob);
+    saveAs(blob, "num_points.docx");
+    console.log("Document created successfully");
+  });
 }
