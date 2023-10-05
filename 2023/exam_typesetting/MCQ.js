@@ -99,49 +99,17 @@ function generateDocx() {
 }
 
 function generate() {
-  // const doc = new docx.Document({
-  //   sections: [
-  //     {
-  //       properties: {},
-  //       children: [
-  //         new docx.Paragraph({
-  //           children: [
-  //             new docx.TextRun("Hello World"),
-  //             new docx.TextRun({
-  //               text: "Foo Bar",
-  //               bold: true
-  //             }),
-  //             new docx.TextRun({
-  //               text: "\tGithub is the best",
-  //               bold: true
-  //             })
-  //           ]
-  //         })
-  //       ]
-  //     }
-  //   ]
-  // });
-
-  // const doc = new docx.Document({
-  //   sections: [{
-  //     children: [
-  //         new docx.Paragraph({
-  //             text: "Bullet points",
-  //             bullet: {
-  //                 level: 0 // How deep you want the bullet to be. Maximum level is 9
-  //             }
-  //         }),
-  //         new docx.Paragraph({
-  //             text: "Are awesome",
-  //             bullet: {
-  //                 level: 0
-  //             }
-  //         })
-  //     ],
-  //   }]
-  // });
 
   const doc = new docx.Document({
+    styles: {
+      default: {
+        document: {
+          run: {
+            size: "11.5pt"
+          }
+        }
+      }
+    },
     numbering: {
       config: [
           {
@@ -156,6 +124,9 @@ function generate() {
                         paragraph: {
                             indent: { left: 363, hanging: 363 },
                         },
+                        run: {
+                          size: "10pt"
+                        },
                     },
                   },
               ],
@@ -166,7 +137,10 @@ function generate() {
       children: [
           new docx.Paragraph({
               text: "Bullet points",
-              spacing: { before: 238},
+              spacing: { after: 238},
+              run: {
+                size: 11.5,
+              },
               numbering: {
                 reference: "numbered-list",
                 level: 0,
@@ -174,12 +148,13 @@ function generate() {
           }),
           new docx.Paragraph({
               text: "Are awesome",
-              spacing: { before: 238},
+              spacing: { after: 238},
               numbering: {
                 reference: "numbered-list",
                 level: 0,
             },
-          })
+          }),
+          
       ],
     }]
   });
