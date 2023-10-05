@@ -166,6 +166,7 @@ function generate() {
       children: [
           new docx.Paragraph({
               text: "Bullet points",
+              spacing: { before: 238},
               numbering: {
                 reference: "numbered-list",
                 level: 0,
@@ -173,6 +174,7 @@ function generate() {
           }),
           new docx.Paragraph({
               text: "Are awesome",
+              spacing: { before: 238},
               numbering: {
                 reference: "numbered-list",
                 level: 0,
