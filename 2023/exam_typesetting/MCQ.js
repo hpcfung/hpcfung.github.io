@@ -122,13 +122,27 @@ function generate() {
                       alignment: docx.AlignmentType.LEFT,
                       style: {
                         paragraph: {
-                            indent: { left: 363, hanging: 363 },
+                            indent: { left: docx.convertMillimetersToTwip(6.4), hanging: docx.convertMillimetersToTwip(6.4) },
                         },
-                        run: {
-                          size: "10pt"
-                        },
+                        // run: {
+                        //   size: "10pt"
+                        // },
                     },
                   },
+                  {
+                    level: 1,
+                    format: docx.LevelFormat.UPPER_LETTER,
+                    text: "%2.",
+                    alignment: docx.AlignmentType.LEFT,
+                    style: {
+                      paragraph: {
+                          indent: { left: docx.convertMillimetersToTwip(15), hanging: docx.convertMillimetersToTwip(7.5) },
+                      },
+                      // run: {
+                      //   size: "10pt"
+                      // },
+                  },
+                },
               ],
           },
       ],
@@ -136,19 +150,52 @@ function generate() {
     sections: [{
       children: [
           new docx.Paragraph({
-              text: "Bullet points",
-              spacing: { after: 238},
-              run: {
-                size: 11.5,
-              },
+              text: "If the optic nerve is cut at the optic chiasm, what kind of deficit to vision will occur?",
+              spacing: { after: docx.convertMillimetersToTwip(4.2)},
               numbering: {
                 reference: "numbered-list",
                 level: 0,
             },
           }),
           new docx.Paragraph({
-              text: "Are awesome",
-              spacing: { after: 238},
+            text: "Monocular blindness",
+            spacing: { after: docx.convertMillimetersToTwip(4.2)},
+            numbering: {
+              reference: "numbered-list",
+              level: 1,
+          },
+        }),
+        new docx.Paragraph({
+          text: "Contralateral homonymous hemianopia",
+          spacing: { after: docx.convertMillimetersToTwip(4.2)},
+          numbering: {
+            reference: "numbered-list",
+            level: 1,
+        },
+      }),
+      new docx.Paragraph({
+        text: "Bitemporal heteronymous hemianopia",
+        spacing: { after: docx.convertMillimetersToTwip(4.2)},
+        numbering: {
+          reference: "numbered-list",
+          level: 1,
+      },
+    }),
+    new docx.Paragraph({
+      text: "Homonymous inferior quadrantanopia",
+      spacing: { after: docx.convertMillimetersToTwip(4.2)},
+      numbering: {
+        reference: "numbered-list",
+        level: 1,
+    },
+  }),
+  new docx.Paragraph({
+    text: "",
+    spacing: { after: docx.convertMillimetersToTwip(4.2)},
+}),
+          new docx.Paragraph({
+              text: "Which of the following related to Glasgow Coma Scale is/are correct?",
+              spacing: { after: docx.convertMillimetersToTwip(4.2)},
               numbering: {
                 reference: "numbered-list",
                 level: 0,
