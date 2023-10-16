@@ -98,7 +98,84 @@ function generateDocx() {
   const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,1,"Generate"), 10);
 }
 
+function getSectionsChildren(instruct_text) {
+  let children = []
+  for (tuple of instruct_text) {
+    switch (tuple[0]) {
+      case 'Q':
+        children.push(new docx.Paragraph({
+          text: "",
+          spacing: { before: docx.convertMillimetersToTwip(4)},
+          numbering: {
+            reference: "numbered-parts-list",
+            level: 0,
+          },
+        }),
+        new docx.Paragraph({
+          text: tuple[1],
+          spacing: { before: docx.convertMillimetersToTwip(6)},
+          numbering: {
+            reference: "numbered-list",
+            level: 0,
+          },
+        }));
+        break;
+      case 'A':
+        children.push(new docx.Paragraph({
+          text: tuple[1],
+          spacing: { before: docx.convertMillimetersToTwip(6)},
+          numbering: {
+            reference: "numbered-list",
+            level: 1,
+          },
+        }));
+        break;
+      case 'P':
+        children.push(new docx.Paragraph({
+          text: tuple[1],
+          spacing: { before: docx.convertMillimetersToTwip(2)},
+          numbering: {
+            reference: "numbered-parts-list",
+            level: 1,
+          },
+        }));
+        break;
+      default:
+        console.log('Error: none of Q, A, P')
+    }
+  }
+  return children
+}
+
 function generate() {
+
+  const sample_text = [
+    ["Q","If the optic nerve is cut at the optic chiasm, what kind of deficit to vision will occur?"],
+    ["A","Monocular blindness"],
+    ["A","Contralateral homonymous hemianopia"],
+    ["A","Bitemporal heteronymous hemianopia"],
+    ["A","Homonymous inferior quadrantanopia"],
+    ["Q","Which of the following related to Glasgow Coma Scale is/are correct?"],
+    ["P","Clinical index for assessing the neurological deficits"],
+    ["P","Effective way for early detection of increased intracranial pressure"],
+    ["P","Scores range from 0 to 15"],
+    ["P","Focus on eye activity, verbal & the worse motor response"],
+    ["P","Stimulus to extremities by pressing the nail plate is one of the standard technique to apply central stimulus"],
+    ["A","ii only"],
+    ["A","i, ii, & iii"],
+    ["A","ii, iv, & v"],
+    ["A","i, ii, iv & v"],
+    ["Q","What kind of pupil examination should be involved?"],
+    ["P","Responses to light (direct)"],
+    ["P","Pupil size"],
+    ["P","Accommodation reflux"],
+    ["P","Pupillary light reflex"],
+    ["P","Pupil symmetry and reaction"],
+    ["A","ii only"],
+    ["A","i, ii, iii & v"],
+    ["A","ii, iv, & v"],
+    ["A","All the above are correct"]
+  ]
 
   const doc = new docx.Document({
     styles: {
@@ -112,97 +189,65 @@ function generate() {
     },
     numbering: {
       config: [
-          {
-              reference: "numbered-list",
-              levels: [
-                  {
-                      level: 0,
-                      format: docx.LevelFormat.DECIMAL,
-                      text: "%1.",
-                      alignment: docx.AlignmentType.LEFT,
-                      style: {
-                        paragraph: {
-                            indent: { left: docx.convertMillimetersToTwip(6.4), hanging: docx.convertMillimetersToTwip(6.4) },
-                        },
-                        // run: {
-                        //   size: "10pt"
-                        // },
-                    },
-                  },
-                  {
-                    level: 1,
-                    format: docx.LevelFormat.UPPER_LETTER,
-                    text: "%2.",
-                    alignment: docx.AlignmentType.LEFT,
-                    style: {
-                      paragraph: {
-                          indent: { left: docx.convertMillimetersToTwip(15), hanging: docx.convertMillimetersToTwip(7.5) },
-                      },
-                      // run: {
-                      //   size: "10pt"
-                      // },
-                  },
+        {
+          reference: "numbered-list",
+          levels: [
+            {
+              level: 0,
+              format: docx.LevelFormat.DECIMAL,
+              text: "%1.",
+              alignment: docx.AlignmentType.LEFT,
+              style: {
+                paragraph: {
+                    indent: { left: docx.convertMillimetersToTwip(6.4), hanging: docx.convertMillimetersToTwip(6.4) },
                 },
-              ],
-          },
+                // run: {
+                //   size: "10pt"
+                // },
+              },
+            },
+            {
+              level: 1,
+              format: docx.LevelFormat.UPPER_LETTER,
+              text: "%2.",
+              alignment: docx.AlignmentType.LEFT,
+              style: {
+                paragraph: {
+                    indent: { left: docx.convertMillimetersToTwip(15), hanging: docx.convertMillimetersToTwip(7.5) },
+                },
+              },
+            },
+          ],
+        },
+        {
+          reference: "numbered-parts-list",
+          levels: [
+            {
+              level: 0,
+              alignment: docx.AlignmentType.RIGHT,
+              style: {
+                paragraph: {
+                    indent: { left: docx.convertMillimetersToTwip(6.4), hanging: docx.convertMillimetersToTwip(6.4) },
+                },
+              },
+            },
+            {
+              level: 1,
+              format: docx.LevelFormat.LOWER_ROMAN,
+              text: "%2.",
+              alignment: docx.AlignmentType.RIGHT,
+              style: {
+                paragraph: {
+                    indent: { left: docx.convertMillimetersToTwip(15), hanging: docx.convertMillimetersToTwip(5) },
+                },
+              },
+            },
+          ],
+        }
       ],
     },
     sections: [{
-      children: [
-          new docx.Paragraph({
-              text: "If the optic nerve is cut at the optic chiasm, what kind of deficit to vision will occur?",
-              spacing: { after: docx.convertMillimetersToTwip(4.2)},
-              numbering: {
-                reference: "numbered-list",
-                level: 0,
-            },
-          }),
-          new docx.Paragraph({
-            text: "Monocular blindness",
-            spacing: { after: docx.convertMillimetersToTwip(4.2)},
-            numbering: {
-              reference: "numbered-list",
-              level: 1,
-          },
-        }),
-        new docx.Paragraph({
-          text: "Contralateral homonymous hemianopia",
-          spacing: { after: docx.convertMillimetersToTwip(4.2)},
-          numbering: {
-            reference: "numbered-list",
-            level: 1,
-        },
-      }),
-      new docx.Paragraph({
-        text: "Bitemporal heteronymous hemianopia",
-        spacing: { after: docx.convertMillimetersToTwip(4.2)},
-        numbering: {
-          reference: "numbered-list",
-          level: 1,
-      },
-    }),
-    new docx.Paragraph({
-      text: "Homonymous inferior quadrantanopia",
-      spacing: { after: docx.convertMillimetersToTwip(4.2)},
-      numbering: {
-        reference: "numbered-list",
-        level: 1,
-    },
-  }),
-  new docx.Paragraph({
-    text: "",
-    spacing: { after: docx.convertMillimetersToTwip(4.2)},
-}),
-          new docx.Paragraph({
-              text: "Which of the following related to Glasgow Coma Scale is/are correct?",
-              spacing: { after: docx.convertMillimetersToTwip(4.2)},
-              numbering: {
-                reference: "numbered-list",
-                level: 0,
-            },
-          }),
-          
-      ],
+      children: getSectionsChildren(sample_text),
     }]
   });
 
