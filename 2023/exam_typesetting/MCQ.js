@@ -84,13 +84,17 @@ function addRawText() {
   document.getElementById("rawText").value = ""
 }
 
-function generateDocx() {
+function generateWordDoc() {
   // https://docx.js.org/#/usage/styling-with-xml
   // host: https://www.unpkg.com/ (all npm)
   // alt: https://docxtemplater.com/ (some features paid)
   // https://cdnjs.com/ (not all)
-
   // somehow loads all files and dependencies automatically
+  
+  var compiled_text = document.getElementById("compiledText").value
+  const matches = [...compiled_text.matchAll(/_[APQ].*$/gm)];
+  const extracted_text = matches.map(arr => arr[0]);
+  generateDocx(getSectionsChildren(extracted_text));
   
   // Refresh button and rawText textarea
   buttonElement = document.getElementById("gen_button")
@@ -98,10 +102,19 @@ function generateDocx() {
   const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,1,"Generate"), 10);
 }
 
-function getSectionsChildren(instruct_text) {
-  let children = []
-  for (tuple of instruct_text) {
-    switch (tuple[0]) {
+/**
+   * instruct_text expected format:
+   * [
+   *  '_Q: This is a question',
+   *  '_A: This is an answer',
+   *  '_Q: This is another question'
+   * ]
+   */
+function getSectionsChildren(text_arr) {
+  let children = [];
+  for (text_str of text_arr) {
+    let text_extract = text_str.slice(4); // '_Q: ' removed
+    switch (text_str[1]) {
       case 'Q':
         children.push(new docx.Paragraph({
           text: "",
@@ -112,7 +125,7 @@ function getSectionsChildren(instruct_text) {
           },
         }),
         new docx.Paragraph({
-          text: tuple[1],
+          text: text_extract,
           spacing: { before: docx.convertMillimetersToTwip(6)},
           numbering: {
             reference: "numbered-list",
@@ -122,7 +135,7 @@ function getSectionsChildren(instruct_text) {
         break;
       case 'A':
         children.push(new docx.Paragraph({
-          text: tuple[1],
+          text: text_extract,
           spacing: { before: docx.convertMillimetersToTwip(6)},
           numbering: {
             reference: "numbered-list",
@@ -132,7 +145,7 @@ function getSectionsChildren(instruct_text) {
         break;
       case 'P':
         children.push(new docx.Paragraph({
-          text: tuple[1],
+          text: text_extract,
           spacing: { before: docx.convertMillimetersToTwip(2)},
           numbering: {
             reference: "numbered-parts-list",
@@ -147,35 +160,35 @@ function getSectionsChildren(instruct_text) {
   return children
 }
 
-function generate() {
+function generateDocx(sectionsChildren) {
 
-  const sample_text = [
-    ["Q","If the optic nerve is cut at the optic chiasm, what kind of deficit to vision will occur?"],
-    ["A","Monocular blindness"],
-    ["A","Contralateral homonymous hemianopia"],
-    ["A","Bitemporal heteronymous hemianopia"],
-    ["A","Homonymous inferior quadrantanopia"],
-    ["Q","Which of the following related to Glasgow Coma Scale is/are correct?"],
-    ["P","Clinical index for assessing the neurological deficits"],
-    ["P","Effective way for early detection of increased intracranial pressure"],
-    ["P","Scores range from 0 to 15"],
-    ["P","Focus on eye activity, verbal & the worse motor response"],
-    ["P","Stimulus to extremities by pressing the nail plate is one of the standard technique to apply central stimulus"],
-    ["A","ii only"],
-    ["A","i, ii, & iii"],
-    ["A","ii, iv, & v"],
-    ["A","i, ii, iv & v"],
-    ["Q","What kind of pupil examination should be involved?"],
-    ["P","Responses to light (direct)"],
-    ["P","Pupil size"],
-    ["P","Accommodation reflux"],
-    ["P","Pupillary light reflex"],
-    ["P","Pupil symmetry and reaction"],
-    ["A","ii only"],
-    ["A","i, ii, iii & v"],
-    ["A","ii, iv, & v"],
-    ["A","All the above are correct"]
-  ]
+  // const sample_text = [
+  //   ["Q","If the optic nerve is cut at the optic chiasm, what kind of deficit to vision will occur?"],
+  //   ["A","Monocular blindness"],
+  //   ["A","Contralateral homonymous hemianopia"],
+  //   ["A","Bitemporal heteronymous hemianopia"],
+  //   ["A","Homonymous inferior quadrantanopia"],
+  //   ["Q","Which of the following related to Glasgow Coma Scale is/are correct?"],
+  //   ["P","Clinical index for assessing the neurological deficits"],
+  //   ["P","Effective way for early detection of increased intracranial pressure"],
+  //   ["P","Scores range from 0 to 15"],
+  //   ["P","Focus on eye activity, verbal & the worse motor response"],
+  //   ["P","Stimulus to extremities by pressing the nail plate is one of the standard technique to apply central stimulus"],
+  //   ["A","ii only"],
+  //   ["A","i, ii, & iii"],
+  //   ["A","ii, iv, & v"],
+  //   ["A","i, ii, iv & v"],
+  //   ["Q","What kind of pupil examination should be involved?"],
+  //   ["P","Responses to light (direct)"],
+  //   ["P","Pupil size"],
+  //   ["P","Accommodation reflux"],
+  //   ["P","Pupillary light reflex"],
+  //   ["P","Pupil symmetry and reaction"],
+  //   ["A","ii only"],
+  //   ["A","i, ii, iii & v"],
+  //   ["A","ii, iv, & v"],
+  //   ["A","All the above are correct"]
+  // ]
 
   const doc = new docx.Document({
     styles: {
@@ -247,7 +260,7 @@ function generate() {
       ],
     },
     sections: [{
-      children: getSectionsChildren(sample_text),
+      children: sectionsChildren,
     }]
   });
 
