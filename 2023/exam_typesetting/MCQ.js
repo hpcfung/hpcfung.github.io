@@ -25,38 +25,38 @@ function getCompiledText(raw_text) {
 }
 
 function repr(str) {
-    var result = '';
-    for (var i = 0; i < str.length; i++) {
-      var char = str.charAt(i);
-      switch (char) {
-        case '\n':
-          result += '\\n';
-          break;
-        case '\r':
-          result += '\\r';
-          break;
-        case '\t':
-          result += '\\t';
-          break;
-        case ' ':
-          result += '\\s';
-          break;
-        // Add more cases for other special characters as needed
-        default:
-          result += char;
-      }
+  var result = '';
+  for (var i = 0; i < str.length; i++) {
+    var char = str.charAt(i);
+    switch (char) {
+      case '\n':
+        result += '\\n';
+        break;
+      case '\r':
+        result += '\\r';
+        break;
+      case '\t':
+        result += '\\t';
+        break;
+      case ' ':
+        result += '\\s';
+        break;
+      // Add more cases for other special characters as needed
+      default:
+        result += char;
     }
-    return result;
   }
+  return result;
+}
 
 function lowerOpacity(buttonElement,i,original_text) {
   // console.log(i)
   buttonElement.style.opacity = 1-i/200;
   if (i < 100) {
-      const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,i+1,original_text), 10);
+    const myTimeout = setTimeout(lowerOpacity.bind(null, buttonElement,i+1,original_text), 10);
   } else {
-      buttonElement.textContent = original_text;
-      buttonElement.style.opacity = 1;
+    buttonElement.textContent = original_text;
+    buttonElement.style.opacity = 1;
   }
 }
   
@@ -266,7 +266,7 @@ function generateDocx(sectionsChildren) {
 
   docx.Packer.toBlob(doc).then((blob) => {
     console.log(blob);
-    saveAs(blob, "num_points.docx");
+    saveAs(blob, "MCQs-Exam-Paper-STUDENT.docx");
     console.log("Document created successfully");
   });
 }
