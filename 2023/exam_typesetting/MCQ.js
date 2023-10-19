@@ -1,7 +1,7 @@
 
 function getCompiledText(raw_text) {
   // remove first and last empty line
-  processed_text = raw_text.replace(/^\s*\n/, '')
+  let processed_text = raw_text.replace(/^\s*\n/, '')
   processed_text = processed_text.replace(/\n\s*$/, '')
   // multiline break: gap should be 1
   processed_text = processed_text.replaceAll(/\n\s*\n\s*\n/g, '\n\n')
@@ -21,7 +21,20 @@ function getCompiledText(raw_text) {
 
   // make sure there is exactly one newline before and one whitespace after Q number
   processed_text = processed_text.replaceAll(/_Q:[\f\r\t\v\u0020\u00a0\u1680\u2000-\u200a\u2028\u2029\u202f\u205f\u3000\ufeff]*/g, '\n_Q: ')
-  return processed_text
+  
+  // remove non Q, A, P lines
+  const matches = [...processed_text.matchAll(/_[APQ].*$/gm)];
+  const extracted_text = matches.map(arr => arr[0]);
+
+  let filtered_text = ''
+  for (text_str of extracted_text) {
+    if (text_str[1] === 'Q') {
+      filtered_text += '\n'
+    }
+    filtered_text += text_str + '\n'
+  }
+
+  return filtered_text
 }
 
 function repr(str) {
@@ -160,35 +173,10 @@ function getSectionsChildren(text_arr) {
   return children
 }
 
+/**
+ * boiler plate code for docx + numbering style
+ */
 function generateDocx(sectionsChildren) {
-
-  // const sample_text = [
-  //   ["Q","If the optic nerve is cut at the optic chiasm, what kind of deficit to vision will occur?"],
-  //   ["A","Monocular blindness"],
-  //   ["A","Contralateral homonymous hemianopia"],
-  //   ["A","Bitemporal heteronymous hemianopia"],
-  //   ["A","Homonymous inferior quadrantanopia"],
-  //   ["Q","Which of the following related to Glasgow Coma Scale is/are correct?"],
-  //   ["P","Clinical index for assessing the neurological deficits"],
-  //   ["P","Effective way for early detection of increased intracranial pressure"],
-  //   ["P","Scores range from 0 to 15"],
-  //   ["P","Focus on eye activity, verbal & the worse motor response"],
-  //   ["P","Stimulus to extremities by pressing the nail plate is one of the standard technique to apply central stimulus"],
-  //   ["A","ii only"],
-  //   ["A","i, ii, & iii"],
-  //   ["A","ii, iv, & v"],
-  //   ["A","i, ii, iv & v"],
-  //   ["Q","What kind of pupil examination should be involved?"],
-  //   ["P","Responses to light (direct)"],
-  //   ["P","Pupil size"],
-  //   ["P","Accommodation reflux"],
-  //   ["P","Pupillary light reflex"],
-  //   ["P","Pupil symmetry and reaction"],
-  //   ["A","ii only"],
-  //   ["A","i, ii, iii & v"],
-  //   ["A","ii, iv, & v"],
-  //   ["A","All the above are correct"]
-  // ]
 
   const doc = new docx.Document({
     styles: {
