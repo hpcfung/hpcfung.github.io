@@ -20,7 +20,9 @@
 </style>
 <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
-<script src="MCQ.js"></script>
+<script src="buttonFunctions.js"></script>
+<script src="preprocessing.js"></script>
+<script src="genDocx.js"></script>
 </head>
 <body> <!-- The body holds the content of the document. -->
 <h1>Generate MCQ.docx</h1> <!-- Display a title. -->
@@ -48,5 +50,7 @@ _A: Eosinophil"></textarea>
 </form>
 <button onclick="generateWordDoc()" id="gen_button">Generate</button>
 <p>Reload page to work on a new document.</p>
+<h1>Testing</h1>
+
 </body>
 </html>
